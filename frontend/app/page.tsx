@@ -75,6 +75,16 @@ export default function Home() {
     }
   };
 
+  const handleTestSentry = () => {
+    try {
+      // This will throw an error and be captured by Sentry
+      throw new Error('🧪 Test Sentry Error - This is a test error to verify Sentry is working!');
+    } catch (error) {
+      Sentry.captureException(error);
+      alert('Test error sent to Sentry! Check your Sentry dashboard in a few seconds.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
@@ -89,6 +99,13 @@ export default function Home() {
           <p className="text-sm text-gray-500 mt-2">
             Session ID: {sessionId}
           </p>
+          {/* Test Sentry Button */}
+          <button
+            onClick={handleTestSentry}
+            className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
+          >
+            🧪 Test Sentry Error
+          </button>
         </header>
 
         {/* Main Content Grid */}
