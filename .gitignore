@@ -1,0 +1,49 @@
+# Node modules
+node_modules/
+.next/
+out/
+build/
+
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Audio files
+uploads/
+*.wav
+*.mp3
+*.m4a
+*.webm
+
+# Testing
+coverage/
+.nyc_output/
+
+# Production
+dist/
+.vercel/
