@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import * as Sentry from '@sentry/nextjs';
 
 interface AIVoiceInterfaceProps {
   sessionId?: string;
@@ -36,6 +37,7 @@ export default function AIVoiceInterface({ sessionId }: AIVoiceInterfaceProps) {
       setAiMessage(prompt);
     } catch (error) {
       console.error('Error generating AI response:', error);
+      Sentry.captureException(error);
       alert('Failed to generate AI response');
     } finally {
       setIsGenerating(false);

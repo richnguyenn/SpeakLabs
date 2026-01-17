@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import * as Sentry from '@sentry/nextjs';
 
 interface AudioRecorderProps {
   onRecordingComplete: (audioBlob: Blob) => void;
@@ -41,6 +42,7 @@ export default function AudioRecorder({ onRecordingComplete }: AudioRecorderProp
       }, 1000);
     } catch (error) {
       console.error('Error starting recording:', error);
+      Sentry.captureException(error);
       alert('Failed to access microphone. Please check permissions.');
     }
   };

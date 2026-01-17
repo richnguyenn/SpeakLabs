@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import AudioRecorder from '@/components/AudioRecorder';
 import AIVoiceInterface from '@/components/AIVoiceInterface';
 import FeedbackDashboard from '@/components/FeedbackDashboard';
@@ -67,6 +68,7 @@ export default function Home() {
       });
     } catch (error) {
       console.error('Error processing recording:', error);
+      Sentry.captureException(error);
       alert('Failed to process recording. Please try again.');
     } finally {
       setIsAnalyzing(false);
