@@ -1,5 +1,6 @@
 import os
 from typing import Optional
+from datetime import datetime
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -13,17 +14,18 @@ load_dotenv()
 sentry_sdk.init(
     dsn=os.getenv("SENTRY_DSN", ""),
     integrations=[FastApiIntegration()],
-    traces_sample_rate=1.0,
-    profiles_sample_rate=1.0,
+    traces_sample_rate=float(os.getenv("SENTRY_TRACES_SAMPLE_RATE", "0.1")),
+    profiles_sample_rate=float(os.getenv("SENTRY_PROFILES_SAMPLE_RATE", "0.1")),
     enable_tracing=True,
 )
 
 app = FastAPI(title="SpeakLabs API", version="1.0.0")
 
 # Configure CORS for Next.js integration
+allowed_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -171,7 +173,7 @@ async def get_feedback(session_id: str):
         # Placeholder response
         return {
             "session_id": session_id,
-            "timestamp": "2026-01-17T18:00:00Z",
+            "timestamp": datetime.utcnow().isoformat() + "Z",
             "emotion": "confident",
             "engagement_score": 0.85,
             "feedback_points": [

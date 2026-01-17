@@ -10,7 +10,9 @@ Sentry.init({
   // Set `tracePropagationTargets` to control which URLs distributed tracing should be enabled for.
   tracePropagationTargets: [
     "localhost",
-    /^https:\/\/[a-zA-Z0-9-]+\.yourdomain\.com\/api/,
+    ...(process.env.NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS 
+      ? process.env.NEXT_PUBLIC_SENTRY_TRACE_PROPAGATION_TARGETS.split(',')
+      : []),
     process.env.NEXT_PUBLIC_API_URL || '',
   ].filter(Boolean),
   
