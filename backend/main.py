@@ -17,6 +17,8 @@ sentry_sdk.init(
     traces_sample_rate=float(os.getenv("SENTRY_TRACES_SAMPLE_RATE", "0.1")),
     profiles_sample_rate=float(os.getenv("SENTRY_PROFILES_SAMPLE_RATE", "0.1")),
     enable_tracing=True,
+    # Add data like request headers and IP for users
+    send_default_pii=True,
 )
 
 app = FastAPI(title="SpeakLabs API", version="1.0.0")
@@ -68,6 +70,12 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
+
+# Sentry test endpoint - Remove after verification
+@app.get("/sentry-debug")
+async def trigger_error():
+    """Test endpoint to verify Sentry is working"""
+    division_by_zero = 1 / 0
 
 # Audio upload endpoint
 @app.post("/api/audio/upload")
